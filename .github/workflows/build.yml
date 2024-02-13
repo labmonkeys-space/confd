@@ -1,0 +1,24 @@
+---
+name: confd build
+run-name: CI/CD pipeline for confd
+
+on: 
+  - push
+  - workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Go 1.22
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.22
+      - name: Compile confd
+        run: make build
+      - name: Install confd
+        run: sudo make install
+      - name: Run tests
+        run: make test
+      
